@@ -57,4 +57,10 @@ class GreatPlaces with ChangeNotifier {
         .toList();
     notifyListeners();
   }
+
+  Future<void> deletePlace(String id) async  {
+    _places.removeWhere((place) => place.id == id);
+    notifyListeners();
+    return await DBHelper.deleteData('user_places', id);
+  }
 }

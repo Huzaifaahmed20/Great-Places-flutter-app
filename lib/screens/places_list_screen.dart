@@ -6,6 +6,28 @@ import 'package:provider/provider.dart';
 import '../providers/great_places.dart';
 
 class PlacesListScreen extends StatelessWidget {
+  void confirmDelete(BuildContext ctx, String id) {
+    showDialog(
+        context: ctx,
+        builder: (ctx) => AlertDialog(
+              title: Text('Are you sure you want to delete?'),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('Cancel'),
+                  onPressed: () => Navigator.of(ctx).pop(),
+                ),
+                FlatButton(
+                  child: Text('Yes'),
+                  onPressed: () {
+                    Provider.of<GreatPlaces>(ctx, listen: false)
+                        .deletePlace(id);
+                    Navigator.of(ctx).pop();
+                  },
+                )
+              ],
+            ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,6 +62,8 @@ class PlacesListScreen extends StatelessWidget {
                                   borderOnForeground: true,
                                   elevation: 10,
                                   child: ListTile(
+                                    contentPadding: EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 10),
                                     leading: CircleAvatar(
                                       backgroundImage:
                                           FileImage(model.places[i].image),
@@ -47,6 +71,14 @@ class PlacesListScreen extends StatelessWidget {
                                     title: Text(model.places[i].title),
                                     subtitle:
                                         Text(model.places[i].location.address),
+                                    trailing: IconButton(
+                                      icon: Icon(
+                                        Icons.delete,
+                                        color: Colors.red,
+                                      ),
+                                      onPressed: () => confirmDelete(
+                                          context, model.places[i].id),
+                                    ),
                                     onTap: () => Navigator.of(context)
                                         .pushNamed(PlaceDetailsScreen.routeName,
                                             arguments: model.places[i].id),
