@@ -1,8 +1,10 @@
-# great_places
+# Great Places
 
 A new Flutter project.
 
-![](demo/ezgif.com-video-to-gif.gif)
+# App Demo
+
+![](demo/demo.gif)
 
 ## Getting Started
 
